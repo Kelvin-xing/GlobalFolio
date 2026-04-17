@@ -12,6 +12,8 @@ drizzle/meta/
 .env
 .env.local
 .env.production
+.env.example
+
 
 # IDE
 .idea/
