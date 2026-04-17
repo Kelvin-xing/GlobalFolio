@@ -115,3 +115,67 @@ export function useExchangeRates() {
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
 }
+
+// ─── Transactions ─────────────────────────────────
+export function useTransactions() {
+  return useQuery({
+    queryKey: ["transactions"],
+    queryFn: () => fetcher("/api/transactions"),
+    staleTime: 30 * 1000,
+  });
+}
+
+export function useHoldingTransactions(holdingId: string) {
+  return useQuery({
+    queryKey: ["transactions", "holding", holdingId],
+    queryFn: () => fetcher(`/api/holdings/${holdingId}/transactions`),
+    enabled: !!holdingId,
+    staleTime: 30 * 1000,
+  });
+}
+
+export function useCreateTransaction() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ holdingId, ...data }: { holdingId: string } & Record<string, unknown>) =>
+      mutator(`/api/holdings/${holdingId}/transactions`, "POST", data),
+    onSuccess: (_data, vars) => {
+      qc.invalidateQueries({ queryKey: ["transactions"] });
+      qc.invalidateQueries({ queryKey: ["transactions", "holding", vars.holdingId] });
+      qc.invalidateQueries({ queryKey: ["holdings"] });
+      qc.invalidateQueries({ queryKey: ["dashboard"] });
+    },
+  });
+}
+
+export function useUpdateTransaction() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({
+      holdingId,
+      txId,
+      ...data
+    }: { holdingId: string; txId: string } & Record<string, unknown>) =>
+      mutator(`/api/holdings/${holdingId}/transactions/${txId}`, "PUT", data),
+    onSuccess: (_data, vars) => {
+      qc.invalidateQueries({ queryKey: ["transactions"] });
+      qc.invalidateQueries({ queryKey: ["transactions", "holding", vars.holdingId] });
+      qc.invalidateQueries({ queryKey: ["holdings"] });
+      qc.invalidateQueries({ queryKey: ["dashboard"] });
+    },
+  });
+}
+
+export function useDeleteTransaction() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ holdingId, txId }: { holdingId: string; txId: string }) =>
+      mutator(`/api/holdings/${holdingId}/transactions/${txId}`, "DELETE"),
+    onSuccess: (_data, vars) => {
+      qc.invalidateQueries({ queryKey: ["transactions"] });
+      qc.invalidateQueries({ queryKey: ["transactions", "holding", vars.holdingId] });
+      qc.invalidateQueries({ queryKey: ["holdings"] });
+      qc.invalidateQueries({ queryKey: ["dashboard"] });
+    },
+  });
+}

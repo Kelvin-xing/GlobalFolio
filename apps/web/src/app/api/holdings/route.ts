@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { getHoldingsByUser, createHolding } from "@/db/queries/holdings";
 import { z } from "zod";
+import { applyRateLimit, RATE_LIMITS } from "@/lib/rate-limit";
 
 const createHoldingSchema = z.object({
   accountId: z.string().uuid().nullable().optional(),
@@ -32,6 +33,9 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
+  const limited = applyRateLimit(req, RATE_LIMITS.mutation);
+  if (limited) return limited;
+
   const session = await auth();
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
