@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist, createJSONStorage } from "zustand/middleware";
 
 interface UIState {
   sidebarOpen: boolean;
@@ -18,6 +18,15 @@ export const useUIStore = create<UIState>()(
       setSidebarOpen: (open) => set({ sidebarOpen: open }),
       setBaseCurrency: (currency) => set({ baseCurrency: currency }),
     }),
-    { name: "globalfolio-ui" }
+    { 
+      name: "globalfolio-ui",
+      storage: createJSONStorage(() =>
+        typeof window !== "undefined" ? localStorage : {
+          getItem: () => null,
+          setItem: () => {},
+          removeItem: () => {},
+        }
+      ),
+    }
   )
 );

@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
 import { generateAllSnapshots } from "@/lib/snapshot-engine";
 import { fetchAndStoreRates } from "@/lib/exchange-rate-service";

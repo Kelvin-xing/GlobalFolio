@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { updateAccount, deleteAccount, getAccountById } from "@/db/queries/accounts";

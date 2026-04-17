@@ -1,8 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "standalone",
-  transpilePackages: ["@globalfolio/shared"],
+  transpilePackages: ["@globalfolio/shared", "recharts", "victory-vendor", "d3-shape", "d3-path"],
 };
 
 export default nextConfig;
