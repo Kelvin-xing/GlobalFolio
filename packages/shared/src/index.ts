@@ -1,5 +1,6 @@
 export * from "./calculations/cost-basis";
 export * from "./calculations/currency";
+export * from "./calculations/returns";
 export * from "./constants/currencies";
 export * from "./constants/asset-classes";
 export * from "./constants/regions";
