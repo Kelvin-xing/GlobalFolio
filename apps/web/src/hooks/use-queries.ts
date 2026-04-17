@@ -51,10 +51,24 @@ export function useDeleteAccount() {
 }
 
 // ─── Holdings ────────────────────────────────────
+// ─── Holdings ────────────────────────────────────
+
+type HoldingRow = {
+  id: string;
+  name: string;
+  ticker: string | null;
+  assetClass: string;
+  quantity: string;
+  costBasis: string | null;
+  lastPrice: string | null;
+  currency: string;
+  accountId: string | null;
+};
+
 export function useHoldings() {
   return useQuery({
     queryKey: ["holdings"],
-    queryFn: () => fetcher("/api/holdings"),
+    queryFn: () => fetcher<HoldingRow[]>("/api/holdings"),
   });
 }
 
