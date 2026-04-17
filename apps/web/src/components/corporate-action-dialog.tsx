@@ -1,5 +1,7 @@
 "use client";
 
+"use client";
+
 import { useState } from "react";
 import { useRecordCorporateAction } from "@/hooks/use-queries";
 import { AlertCircle, CheckCircle, Loader2, X } from "lucide-react";
@@ -123,7 +125,7 @@ export function CorporateActionDialog({ holding, open, onClose }: Props) {
       note: form.note || undefined,
     };
 
-    let payload: { holdingId: string } & Record<string, unknown>;
+    let payload: Record<string, unknown>;
 
     switch (actionType) {
       case "split":

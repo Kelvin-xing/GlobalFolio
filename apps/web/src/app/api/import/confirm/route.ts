@@ -118,10 +118,9 @@ export async function POST(req: NextRequest) {
           fee: t.fee,
           ratioFrom: t.ratioFrom,
           ratioTo: t.ratioTo,
-          executedAt: t.executedAt,
         }))
       );
-      await updateHolding(holdingId, userId, { quantity, costBasis });
+      await updateHolding(holdingId, { quantity, costBasis });
     })
   );
 
