@@ -171,7 +171,7 @@ function TransactionDialog({
     };
 
     if (editTx) {
-      await update.mutateAsync({ holdingId: editTx.holdingId!, txId: editTx.id, ...payload });
+      await update.mutateAsync({ txId: editTx.id, ...payload, holdingId: editTx.holdingId! });
     } else {
       await create.mutateAsync(payload);
     }

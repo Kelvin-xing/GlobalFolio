@@ -10,6 +10,7 @@ import {
   BadgeDollarSign,
   Target,
   Settings,
+  Upload,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useUIStore } from "@/stores/ui-store";
@@ -18,6 +19,7 @@ const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/dashboard/holdings", label: "Holdings", icon: Briefcase },
   { href: "/dashboard/transactions", label: "Transactions", icon: ArrowLeftRight },
+  { href: "/dashboard/import", label: "Import CSV", icon: Upload },
   { href: "/dashboard/analysis", label: "Analysis", icon: PieChart, disabled: true },
   { href: "/dashboard/dividends", label: "Dividends", icon: BadgeDollarSign, disabled: true },
   { href: "/dashboard/goals", label: "Goals", icon: Target, disabled: true },
