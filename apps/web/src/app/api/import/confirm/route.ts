@@ -121,7 +121,7 @@ export async function POST(req: NextRequest) {
           executedAt: t.executedAt,
         }))
       );
-      await updateHolding(holdingId, { quantity, costBasis });
+      await updateHolding(holdingId, userId, { quantity, costBasis });
     })
   );
 
