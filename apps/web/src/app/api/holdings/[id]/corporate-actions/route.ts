@@ -193,6 +193,7 @@ export async function POST(
           fee: t.fee,
           ratioFrom: t.ratioFrom,
           ratioTo: t.ratioTo,
+          executedAt: t.executedAt,
         }))
       );
       await updateHolding(holdingId, session.user.id, { quantity, costBasis });

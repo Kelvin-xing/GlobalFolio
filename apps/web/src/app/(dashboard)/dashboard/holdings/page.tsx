@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import {
   useHoldings,
   useCreateHolding,
@@ -8,7 +9,11 @@ import {
 } from "@/hooks/use-queries";
 import { Plus, Trash2, Search, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { CorporateActionDialog } from "@/components/corporate-action-dialog";
+
+const CorporateActionDialog = dynamic(
+  () => import("@/components/corporate-action-dialog").then((m) => m.CorporateActionDialog),
+  { ssr: false }
+);
 
 interface Holding {
   id: string;
