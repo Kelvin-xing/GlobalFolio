@@ -132,9 +132,9 @@ export function useExchangeRates() {
 
 // ─── Transactions ─────────────────────────────────
 export function useTransactions() {
-  return useQuery({
+  return useQuery<unknown[]>({
     queryKey: ["transactions"],
-    queryFn: () => fetcher("/api/transactions"),
+    queryFn: () => fetcher<unknown[]>("/api/transactions"),
     staleTime: 30 * 1000,
   });
 }
