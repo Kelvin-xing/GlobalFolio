@@ -179,3 +179,17 @@ export function useDeleteTransaction() {
     },
   });
 }
+
+export function useRecordCorporateAction() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ holdingId, ...data }: { holdingId: string } & Record<string, unknown>) =>
+      mutator(`/api/holdings/${holdingId}/corporate-actions`, "POST", data),
+    onSuccess: (_data, vars) => {
+      qc.invalidateQueries({ queryKey: ["holdings"] });
+      qc.invalidateQueries({ queryKey: ["transactions"] });
+      qc.invalidateQueries({ queryKey: ["transactions", "holding", vars.holdingId] });
+      qc.invalidateQueries({ queryKey: ["dashboard"] });
+    },
+  });
+}

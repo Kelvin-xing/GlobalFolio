@@ -6,8 +6,9 @@ import {
   useCreateHolding,
   useDeleteHolding,
 } from "@/hooks/use-queries";
-import { Plus, Trash2, Search, ExternalLink } from "lucide-react";
+import { Plus, Trash2, Search, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { CorporateActionDialog } from "@/components/corporate-action-dialog";
 
 interface Holding {
   id: string;
@@ -168,6 +169,7 @@ export default function HoldingsPage() {
   const deleteHolding = useDeleteHolding();
   const [showAdd, setShowAdd] = useState(false);
   const [search, setSearch] = useState("");
+  const [corporateActionHolding, setCorporateActionHolding] = useState<Holding | null>(null);
 
   const filtered = (holdings || []).filter(
     (h) =>
@@ -229,8 +231,7 @@ export default function HoldingsPage() {
                 <th className="px-4 py-3 text-right font-medium">Price</th>
                 <th className="px-4 py-3 text-right font-medium">Value</th>
                 <th className="px-4 py-3 text-right font-medium">Currency</th>
-                <th className="px-4 py-3 text-right font-medium">Actions</th>
-              </tr>
+                <th className="px-4 py-3 text-right font-medium">Actions</th>              </tr>
             </thead>
             <tbody>
               {filtered.map((h) => {
@@ -267,12 +268,21 @@ export default function HoldingsPage() {
                       {h.currency}
                     </td>
                     <td className="px-4 py-3 text-right">
-                      <button
-                        onClick={() => deleteHolding.mutate(h.id)}
-                        className="rounded-md p-1 text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </button>
+                      <div className="flex items-center justify-end gap-1">
+                        <button
+                          onClick={() => setCorporateActionHolding(h)}
+                          title="Record Corporate Action"
+                          className="rounded-md p-1 text-muted-foreground hover:bg-blue-500/10 hover:text-blue-400"
+                        >
+                          <Zap className="h-4 w-4" />
+                        </button>
+                        <button
+                          onClick={() => deleteHolding.mutate(h.id)}
+                          className="rounded-md p-1 text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 );
@@ -283,6 +293,14 @@ export default function HoldingsPage() {
       )}
 
       <AddHoldingDialog open={showAdd} onClose={() => setShowAdd(false)} />
+
+      {corporateActionHolding && (
+        <CorporateActionDialog
+          holding={corporateActionHolding}
+          open={!!corporateActionHolding}
+          onClose={() => setCorporateActionHolding(null)}
+        />
+      )}
     </div>
   );
 }
