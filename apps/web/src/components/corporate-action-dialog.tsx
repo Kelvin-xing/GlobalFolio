@@ -125,7 +125,7 @@ export function CorporateActionDialog({ holding, open, onClose }: Props) {
       note: form.note || undefined,
     };
 
-    let payload: Record<string, unknown>;
+    let payload: { holdingId: string } & Record<string, unknown>;
 
     switch (actionType) {
       case "split":
